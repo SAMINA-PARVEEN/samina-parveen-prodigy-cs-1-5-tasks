@@ -8,9 +8,7 @@ def encrypt_message(message, shift):
         else:
             encrypted_message += char
     return encrypted_message
-
 def decrypt_message(encrypted_message, shift):
     return encrypt_message(encrypted_message, -shift)
-
 def display_encrypted_message(encrypted_message):
     print(f"Encrypted Message: {encrypted_message}")

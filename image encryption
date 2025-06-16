@@ -1,16 +1,27 @@
-def encrypt_message(message, shift):
-    encrypted_message = ""
-    for char in message:
-        if char.isalpha():
-            shift_amount = shift if char.islower() else shift
-            new_char = chr((ord(char) - ord('a') + shift_amount) % 26 + ord('a')) if char.islower() else chr((ord(char) - ord('A') + shift_amount) % 26 + ord('A'))
-            encrypted_message += new_char
-        else:
-            encrypted_message += char
-    return encrypted_message
-
-def decrypt_message(encrypted_message, shift):
-    return encrypt_message(encrypted_message, -shift)
-
-def display_encrypted_message(encrypted_message):
-    print(f"Encrypted Message: {encrypted_message}")
+from PIL import Image
+import os
+def encrypt_image(input_path, output_path, key=50):
+    img = Image.open(input_path)
+    pixels = img.load()
+    for i in range(img.width):
+        for j in range(img.height):
+            r, g, b = pixels[i, j]
+            pixels[i, j] = ((r + key) % 256, (g + key) % 256, (b + key) % 256)
+    img.save(output_path)
+    print(f"Image encrypted and saved to {output_path}")
+def decrypt_image(input_path, output_path, key=50):
+    img = Image.open(input_path)
+    pixels = img.load()
+    for i in range(img.width):
+        for j in range(img.height):
+            r, g, b = pixels[i, j]
+            pixels[i, j] = ((r - key) % 256, (g - key) % 256, (b - key) % 256)
+    img.save(output_path)
+    print(f"Image decrypted and saved to {output_path}")
+if __name__ == "__main__":
+    original_image = "input.jpg"      
+    encrypted_image = "encrypted.png"
+    decrypted_image = "decrypted.png"
+    key = 77                            
+    encrypt_image(original_image, encrypted_image, key)
+    decrypt_image(encrypted_image, decrypted_image, key)
